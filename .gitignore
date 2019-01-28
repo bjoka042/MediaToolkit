@@ -216,3 +216,4 @@ pip-log.txt
 
 TestVideo/
 /MediaToolkit src/.vs
+/MediaToolkit src/packages/Moq.4.2.1510.2205
