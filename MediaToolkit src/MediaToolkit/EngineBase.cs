@@ -16,7 +16,7 @@
         private bool isDisposed;
 
         /// <summary>   Used for locking the FFmpeg process to one thread. </summary>
-        private const string LockName = "MediaToolkit.Engine.LockName";
+        private const string DefaultLockName = "MediaToolkit.Engine.LockName";
 
         private const string DefaultFFmpegFilePath = @"/MediaToolkit/ffmpeg.exe";
 
@@ -31,7 +31,7 @@
 
 
          protected EngineBase()
-            : this(ConfigurationManager.AppSettings["mediaToolkit.ffmpeg.path"])
+            : this(ConfigurationManager.AppSettings["mediaToolkit.ffmpeg.path"], ConfigurationManager.AppSettings["mediaToolkit.lockname"])
         {
         }
 
@@ -40,9 +40,14 @@
         ///     <para> Initializes FFmpeg.exe; Ensuring that there is a copy</para>
         ///     <para> in the clients temp folder &amp; isn't in use by another process.</para>
         /// </summary>
-        protected EngineBase(string ffMpegPath)
+        protected EngineBase(string ffMpegPath, string lockName)
         {
-            this.Mutex = new Mutex(false, LockName);
+            if (lockName.IsNullOrWhiteSpace())
+            {
+                lockName = DefaultLockName;
+            }
+
+            this.Mutex = new Mutex(false, lockName);
             this.isDisposed = false;
 
             if (ffMpegPath.IsNullOrWhiteSpace())

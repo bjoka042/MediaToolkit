@@ -25,7 +25,7 @@
             
         }
 
-        public Engine(string ffMpegPath) : base(ffMpegPath)
+        public Engine(string ffMpegPath, string lockName = "") : base(ffMpegPath, lockName)
         {
             
         }
